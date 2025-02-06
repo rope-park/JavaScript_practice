@@ -28,12 +28,42 @@ class Ball {
         this.size = size; // 각 공의 크기(반지름, px 단위)
     }
 
-    // 2D 캔버스 컨텍스트의 멤버 시리즈를 호출하여 공이 화면에 스스로 그리도록 할 수 있음
+    // 2D 캔버스 컨텍스트의 멤버 시리즈를 호출하여 공이 화면에 스스로 그리도록 하는 함수
     draw() {
         ctx.beginPath(); // 그리기 시작
         ctx.fillStyle = this.color; // 공의 색상 정의
         // 종이에 호 모양을 추적(마지막 두 매개변수는 호가 그려지는 원 중심으로 시작 및 종료 각도 지정(라디안))
         ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI); 
         ctx.fill(); // 경로가 차지하는 영역을 앞서 지정한 색상으로 채우기
+    }
+
+    // 공의 데이터 업데이트 함수
+    update() {
+        /* 공이 캔버스 가장자리에 도달할 경우 
+        -> 속도의 극성을 반전하여 공이 반대 방향으로 이동하게 함.*/
+
+        // x좌표가 캔버스의 너비보다 큰 경우(우측 모서리)
+        if ((this.x + this.size) >= width) {
+            this.velX = -(this.velX);
+        }
+
+        // x좌표가 0보다 작은 경우(좌측 모서리)
+        if ((this.x - this.size) <= 0) {
+            this.velX = -(this.velX);
+        }
+
+        // y좌표가 캔버스의 높이보다 큰 경우(하단 모서리)
+        if ((this.y + this.size) >= height) {
+            this.velY = -(this.velY);
+        }
+
+
+        // y좌표가 0보다 작은 경우(상단 모서리)
+        if ((this.y + this.size) <= 0) {
+            this.velY = -(this.velY);
+        }
+
+        this.x += this.velX;
+        this.y += this.velY;
     }
 }
