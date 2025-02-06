@@ -66,6 +66,24 @@ class Ball {
     this.x += this.velX;
     this.y += this.velY;
   }
+
+  // 충돌 감지 함수
+  collisionDetect() {
+    for (const ball of balls) {
+      // 현재 공(collisionDetect()가 호출되는 공)과 루프 공(collisionDetect()에서 for 루프의 현재 반복에서 참조되는 공))이 같은지 확인
+      if (this !== ball) {
+        const dx = this.x - ball.x;
+        const dy = this.y - ball.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        // 영역이 겹친다면
+        if (distance < this.size + ball.size) {
+          // 두 원의 속성을 새로운 랜덤 색상으로 설정
+          ball.color = this. color = randomRGB();
+        }
+      }
+    }
+  }
 }
 
 const balls = [];
@@ -96,6 +114,7 @@ function loop() {
   for (const ball of balls) {
     ball.draw();
     ball.update();
+    ball.collisionDetect();
   }
 
   requestAnimationFrame(loop);
