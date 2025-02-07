@@ -38,7 +38,7 @@ class Ball extends Shape {
         this.exists = this.exists;
     }
 
-    // 2D 캔버스 컨텍스트의 멤버 시리즈를 호출하여 공이 화면에 스스로 그리도록 하는 함수
+    // 2D 캔버스 컨텍스트의 멤버 시리즈를 호출하여 공이 화면에 스스로 그리도록 하는 메서드
     draw() {
         ctx.beginPath(); // 그리기 시작
         ctx.fillStyle = this.color; // 공의 색상 정의
@@ -47,7 +47,7 @@ class Ball extends Shape {
         ctx.fill(); // 경로가 차지하는 영역을 앞서 지정한 색상으로 채우기
     }
 
-    // 공의 데이터 업데이트 함수
+    // 공의 데이터 업데이트 메서드
     update() {
         /* 공이 캔버스 가장자리에 도달할 경우 
         -> 속도의 극성을 반전하여 공이 반대 방향으로 이동하게 함.*/
@@ -77,7 +77,7 @@ class Ball extends Shape {
         this.y += this.velY;
     }
 
-    // 충돌 감지 함수
+    // 충돌 감지 메서드
     collisionDetect() {
         for (const ball of balls) {
             // 현재 공(collisionDetect()가 호출되는 공)과 루프 공(collisionDetect()에서 for 루프의 현재 반복에서 참조되는 공))이 같은지 확인
@@ -96,6 +96,7 @@ class Ball extends Shape {
     }
 }
 
+// 공을 잡아먹는 악마 원 생성자 함수
 class EvilCircle extends Shape {
     constructor(x, y) {
         // Shape 클래스로부터 매개변수 상속
@@ -103,6 +104,7 @@ class EvilCircle extends Shape {
         this.color = white;
         this.size = 10;
 
+        // 사용자 키 인식하여 방향키로 사용
         window.addEventListener("keydown", (e) => {
             switch (e.key) {
                 case 'a':
@@ -121,12 +123,36 @@ class EvilCircle extends Shape {
         });
     }
 
+    // 악마 원 그리기 메서드
     draw() {
         ctx.beginPath(); // 경로 시작
         ctx.lineWidth = 3; // 선(stroke)의 굵기
         ctx.strokeStyle = this.color; // 공 바깥선(stroke) 색상 정의
         ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
         ctx.stroke(); // 경로를 따라 선 그리기
+    }
+
+    // 스크린 모서리에 닿으면 살짝 튕겨져 나오는 메서드
+    checkBounds() {
+        if ((this.x + this.size) >= width) {
+            this.x = -(this.x);
+        }
+
+        // x좌표가 0보다 작은 경우(좌측 모서리)
+        if ((this.x - this.size) <= 0) {
+            this.x = -(this.x);
+        }
+
+        // y좌표가 캔버스의 높이보다 큰 경우(하단 모서리)
+        if ((this.y + this.size) >= height) {
+            this.y = -(this.y);
+        }
+
+
+        // y좌표가 0보다 작은 경우(상단 모서리)
+        if ((this.y + this.size) <= 0) {
+            this.y = -(this.y);
+        }
     }
 }
 
