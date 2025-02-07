@@ -38,7 +38,7 @@ class Ball extends Shape {
         // 고유 매개변수 생성 및 초기화
         this.color = color; // 각 공의 색상
         this.size = size; // 각 공의 크기(반지름, px 단위)
-        this.exists = this.exists;
+        this.exists = true; // 공의 존재 유무
     }
 
     // 2D 캔버스 컨텍스트의 멤버 시리즈를 호출하여 공이 화면에 스스로 그리도록 하는 메서드
@@ -104,11 +104,11 @@ class EvilCircle extends Shape {
     constructor(x, y) {
         // Shape 클래스로부터 매개변수 상속
         super(x, y, 20, 20);
-        this.color = white;
+        this.color = 'white';
         this.size = 10;
 
         // 사용자 키 인식하여 방향키로 사용
-        window.addEventListener("keydown", (e) => {
+        window.addEventListener('keydown', (e) => {
             switch (e.key) {
                 case 'a':
                     this.x -= this.velX;
@@ -118,7 +118,7 @@ class EvilCircle extends Shape {
                     break;
                 case 'w':
                     this.y -= this.velY;
-                    breakl
+                    break;
                 case 's':
                     this.y += this.velY;
                     break;
