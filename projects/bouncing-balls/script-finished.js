@@ -1,3 +1,6 @@
+const para = document.querySelector('p');
+let count = 0; // 공의 개수
+
 // cavas 세팅
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -154,6 +157,25 @@ class EvilCircle extends Shape {
             this.y = -(this.y);
         }
     }
+
+    collisionDetect() {
+        for (const ball of balls) {
+            // 현재 공(collisionDetect()가 호출되는 공)과 루프 공(collisionDetect()에서 for 루프의 현재 반복에서 참조되는 공))이 같은지 확인
+            if (ball.exists) {
+                const dx = this.x - ball.x;
+                const dy = this.y - ball.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                // 영역이 겹친다면
+                if (distance < this.size + ball.size) {
+                    // 공을 삭제시킴
+                    ball.exists = false;
+                    count--;
+                    para.textContent = 'Ball Count: ' + count;
+                }
+            }
+        }
+    }
 }
 
 const balls = [];
@@ -173,7 +195,11 @@ while (balls.length < 25) {
     );
 
     balls.push(ball);
+    count++;
+    para.textContent = 'Ball Count: ' + count; // 공 개수 나타내기
 }
+
+const evilBall = new EvilCircle(random(0, width), random(0, height));
 
 function loop() {
     // 캔버스 채우기 색상을 반투명 검정색으로 설정
@@ -188,6 +214,10 @@ function loop() {
             ball.collisionDetect();
         }
     }
+
+    evilBall.draw();
+    evilBall.checkBounds();
+    evilBall.collisionDetect();   
 
     requestAnimationFrame(loop);
 }
