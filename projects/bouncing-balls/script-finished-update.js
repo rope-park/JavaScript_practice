@@ -85,8 +85,9 @@ class Ball extends Shape {
 
                 // 영역이 겹친다면
                 if (distance < this.size + ball.size) {
-                    // 두 원의 속성을 새로운 랜덤 색상으로 설정
-                    ball.color = this.color = randomRGB();
+                    // 튕겨져 나감
+                    this.velX = -(this.velX);
+                    this.velY = -(this.velY)
                 }
             }
         }
