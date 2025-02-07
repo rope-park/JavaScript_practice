@@ -158,9 +158,10 @@ class EvilCircle extends Shape {
         }
     }
 
+    // 공이랑 악마 원이랑 충돌 감지 메서드 
     collisionDetect() {
         for (const ball of balls) {
-            // 현재 공(collisionDetect()가 호출되는 공)과 루프 공(collisionDetect()에서 for 루프의 현재 반복에서 참조되는 공))이 같은지 확인
+            // 공이 남아있으면
             if (ball.exists) {
                 const dx = this.x - ball.x;
                 const dy = this.y - ball.y;
