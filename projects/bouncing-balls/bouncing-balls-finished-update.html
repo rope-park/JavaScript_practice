@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title>Bouncing balls</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
 
-  <body>
-    <h1>bouncing balls</h1>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Bouncing balls</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <h1>bouncing balls</h1>
+  <p></p>
+  <div id="gameover">
     <p></p>
-    <canvas></canvas>
+    <div id="gametime">
+      <p></p>
+    </div>
+    <div id="button-group">
+      <button id="restart-button" type="button">Try Again</button>
+      <button id="scoreboard-button" type="button">Show Scoreboard</button>
+    </div>
+  </div>
 
-    <script src="script-finished-update.js"></script>
-  </body>
+  <canvas></canvas>
+
+  <script src="script-finished-update.js"></script>
+</body>
+
 </html>
