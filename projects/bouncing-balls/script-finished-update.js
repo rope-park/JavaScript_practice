@@ -1,4 +1,12 @@
+// html 파일 요소 선택
 const para = document.querySelector('p');
+
+const gameOverDiv = document.getElementById('gameover');
+const gameOverText = document.querySelector('#gameover p');
+const gameTimeText = document.querySelector('#gametime p');
+const restartButton = document.getElementById('restart-button');
+const scoreboardButton = document.getElementById('scoreboard-button');
+
 let count = 0; // 공의 개수
 let startTime = Date.now(); // 시작 시간
 
@@ -170,6 +178,11 @@ class EvilCircle extends Shape {
                     ball.exists = false;
                     count--;
                     para.textContent = 'Ball Count: ' + count;
+                    // 모든 공이 삭제되면
+                    if (count === 0) {
+                        // 게임 끝
+                        showGameOver();
+                    }
                 }
             }
         }
@@ -195,8 +208,7 @@ while (balls.length < 25) {
 }
 
 para.textContent = 'Ball Count: ' + count; // 공 개수 나타내기
-const evilBall = new EvilCircle(random(0, width), random(0, height));
-
+const evilBall = new EvilCircle(width / 2, height / 2 + 50); // 악마 원 시작 위치 고정
 // 마우스 따라서 악마 원 이동
 document.addEventListener('mousemove', (e) => {
     if (evilBall.isDragging) {
@@ -225,3 +237,9 @@ function loop() {
 }
 
 loop();
+
+function showGameOver() {
+    const gameTime = Math.floor((Date.now() - startTime) / 1000);
+    gameOverText.textContent = 'You caught all the balls!';
+    gameTimeText.textContent = `Spent Time: ${gameTime} seconds`;
+}
