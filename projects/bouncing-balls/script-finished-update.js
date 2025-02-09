@@ -4,6 +4,7 @@ const para = document.querySelector('p');
 const gameOverDiv = document.getElementById('gameover');
 const gameOverText = document.querySelector('#gameover p');
 const gameTimeText = document.querySelector('#gametime p');
+const bestTimeText = document.querySelector('#best-time p');
 const restartButton = document.getElementById('restart-button');
 const scoreboardButton = document.getElementById('scoreboard-button');
 
@@ -190,27 +191,15 @@ class EvilCircle extends Shape {
 }
 
 const balls = [];
-
-// 배열 balls 내 공 개수가 25개 미만일 때 true
-while (balls.length < 25) {
-    const size = random(10, 20);
-    const ball = new Ball(
-        random(0 + size, width - size),
-        random(0 + size, height - size),
-        random(-7, 7),
-        random(-7, 7),
-        randomRGB(),
-        size,
-    );
-
-    balls.push(ball);
-    count++;
-}
-
 para.textContent = 'Ball Count: ' + count; // 공 개수 나타내기
 const evilBall = new EvilCircle(width / 2, height / 2 + 50); // 악마 원 시작 위치 고정
+
+document.addEventListener("DOMContentLoaded", () => {
+    startGame();
+})
+
 // 마우스 따라서 악마 원 이동
-document.addEventListener('mousemove', (e) => {
+canvas.addEventListener('mousemove', (e) => {
     if (evilBall.isDragging) {
         evilBall.x = e.clientX;
         evilBall.y = e.clientY;
@@ -231,15 +220,43 @@ function loop() {
 
     evilBall.draw();
     evilBall.checkBounds();
-    evilBall.collisionDetect();   
+    evilBall.collisionDetect();
 
     requestAnimationFrame(loop);
 }
 
 loop();
 
+// 게임 시작 시 보여지는 화면 생성 함수
+function startGame() {
+    gameOverDiv.classList.remove('visible');
+    gameOverDiv.classList.add('hidden');
+    startTime = Date.now();
+    count = 25;
+    balls.length = 0;
+
+    while (balls.length < 25) {
+        const size = random(10, 20);
+        balls.push(new Ball(
+            random(0 + size, width - size),
+            random(0 + size, height - size),
+            random(-7, 7),
+            random(-7, 7),
+            randomRGB(),
+            size,
+        ));
+    }
+    para.textContent = 'Ball Count: ' + count; // 공 개수 나타내기
+    const evilBall = new EvilCircle(width / 2, height / 2 + 50); // 악마 원 시작 위치 고정
+    loop();
+}
+
+// 게임 오버 시 보여지는 화면 생성 함수
 function showGameOver() {
+    gameOverDiv.classList.remove('hidden'); // 숨기는 클래스 제거
+    gameOverDiv.classList.add('visible'); // 보이는 클래스 추가
     const gameTime = Math.floor((Date.now() - startTime) / 1000);
     gameOverText.textContent = 'You caught all the balls!';
     gameTimeText.textContent = `Spent Time: ${gameTime} seconds`;
+    bestTimeText.textContent = `Best Time: seconds`;
 }
