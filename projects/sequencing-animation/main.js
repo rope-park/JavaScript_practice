@@ -15,25 +15,27 @@ const alice1 = document.querySelector("#alice1");
 const alice2 = document.querySelector("#alice2");
 const alice3 = document.querySelector("#alice3");
 
-// alice에 애니메이션 효과 적용 - 2. Promise Chaining 활용
-// Promise를 반환하는 함수를 정의하고, then 메소드를 활용하여 순차적으로 애니메이션을 실행
-const alicePromise = (element) => {
-    return element.animate(aliceTumbling, aliceTiming).finished;
-};
+// alice에 애니메이션 효과 적용 - 3. async/await 사용
+// Promise를 반환하는 함수 => Promise가 resolve되면 다음 작업을 수행
+async function alicePromise(element) {
+    return new Promise((resolve) => {
+        element.animate(aliceTumbling, aliceTiming)
+            .onfinish = resolve;
+    })
+}
 
-// element 애니메이션을 Promise로 반환하는 함수
-alicePromise(alice1)
-    .then(() => {
-        console.log("첫 번째 alice 애니메이션 완료");
-        return alicePromise(alice2);
-    })
-    .then(() => {
-        console.log("두 번째 alice 애니메이션 완료");
-        return alicePromise(alice3);
-    })
-    .then(() => {
-        console.log("세 번째 alice 애니메이션 완료");
-    })
-    .catch((error) => {
-        console.error("오류 발생: ", error);
-    });
+// 비동기적으로 작업 처리
+async function aliceTumblingAll() {
+    console.log("Start Alice Tumbling!");
+
+    await alicePromise(alice1);
+    console.log("Alice2 Start!");
+
+    await alicePromise(alice2);
+    console.log("Alice3 Start!");
+
+    await alicePromise(alice3);
+    console.log("End Alice Tumbling!");
+}
+
+aliceTumblingAll();
