@@ -13,7 +13,7 @@ document.querySelector("#generate").addEventListener("click", () => {
     });
 });
 
-// 워커가 보낸 결과를 수신하여 UI 업데이트
+// 워커가 보낸 결과를 수신하여 메인 스레드에서 UI 업데이트
 // 워커가 postMessage()로 데이터를 전송하면 message 이벤트가 발생
 worker.addEventListener("message", (message) => {
     document.querySelector("#output").textContent = `Finished generating ${message.data} primes!`;
